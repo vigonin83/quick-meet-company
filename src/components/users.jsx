@@ -4,19 +4,27 @@ import api from '../api'
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
-   
+
     const handleDelete = (userId) => {
       setUsers(prevState => prevState.filter(user => user._id !== userId))
     }
 
     const renderPhrase = (number) => {
-      let numberOfUsers = users.length
-      console.log(numberOfUsers)
-      const titleText = 'человек тусанет с тобой'
-          return (
-          <h1 className="badge bg-primary m-2 p-2">{titleText}</h1>
-        ) 
+      
+      number = users.length
+
+      const titleText = (number > 4) ? ' человек тусанут с тобой сегодня' : 
+             (number === 1) ? ' человек тусанет с тобой сегодня' :
+             ' человека тусанут с тобой сегодня'
+
+      if(number > 0) {
+        return <h2><span  className="badge bg-primary m-2 p-2">{number + titleText}</span></h2>              
+      } else {
+          return <h2><span  className="badge bg-danger m-2">Никто с тобой не тусанет</span></h2>
+      }
     }
+    
+    if (users.length > 0) {
     return (
     <>
     {renderPhrase()}
@@ -50,7 +58,7 @@ const Users = () => {
               })}</td>
               <td>{user.profession.name}</td>
               <td>{user.completedMeetings}</td>
-              <td>{user.rate}</td>
+              <td>{user.rate} /5</td>
               <td><button type="button" className="btn btn-danger" onClick = {() => handleDelete(user._id)}>Delete</button></td>
             </tr>
             )
@@ -59,7 +67,13 @@ const Users = () => {
       </tbody>
     </table>
     </>
-    )
+    )} else {
+      return (
+        <>
+        {renderPhrase()}
+        </>
+      )
+    }
 }
 
 export default Users
