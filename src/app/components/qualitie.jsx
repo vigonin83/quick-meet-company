@@ -1,17 +1,18 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-
-function Qualitie (props) {
-
+function Qualitie({ quality, qualityColor }) {
     const getBadgeColor = () => {
-      let classes = 'badge m-2 bg-'
-      classes = classes + props.qualityColor
-      return classes
-    }
-    
-return (
-    <span className={getBadgeColor()}>{props.quality}</span> 
-  )
-}
+        let classes = 'badge m-2 bg-';
+        classes = classes + qualityColor;
+        return classes;
+    };
 
-export default Qualitie
+    return <span className={getBadgeColor()}>{quality}</span>;
+}
+Qualitie.propTypes = {
+    quality: PropTypes.string.isRequired,
+    qualityColor: PropTypes.string.isRequired
+};
+
+export default Qualitie;
